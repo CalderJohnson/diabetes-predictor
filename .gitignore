@@ -1,3 +1,4 @@
 /model/data/*
 /model/__pycache__/*
-/model/keys.py
+__pycache__
+/keys.py

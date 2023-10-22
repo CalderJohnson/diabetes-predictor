@@ -1,12 +1,12 @@
 """Functionality to determine risk factors for users"""
 import torch
 import cohere
-from model import DiabetesPredictorModel
+from model.model import DiabetesPredictorModel
 from keys import COHERE_API_KEY # Secret
 
 # Load our custom predictive health model
 model = DiabetesPredictorModel()
-model.load_state_dict(torch.load("./model.pt"))
+model.load_state_dict(torch.load("./model/model.pt"))
 model.eval()
 
 # Access the Cohere API for GPT powered text generation
@@ -57,7 +57,7 @@ def generate_prediction(data):
     """Generate a prediction of diabetes risk based on the 16 factors"""
     data = torch.tensor([data])
     with torch.no_grad():
-        return model(data)
+        return model(data).item()
 
 def generate(data):
     """Based on listed risk factors and likelihood of diabetes/pre diabetes, generate a paragraph describing personalized health improvements"""
