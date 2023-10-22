@@ -7,6 +7,7 @@ from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 
 from data import UserDataAttributes
+from model import predict
 
 app = FastAPI()
 
@@ -24,7 +25,7 @@ app.add_middleware(
 )
 #end of React part
     
-datalist = {}
+dataresults = {}
     
 
 #Requests
@@ -84,11 +85,11 @@ async def get_data(request: Request, high_bp: float = Form(None), high_chol: flo
                               #gen_health=genhealth, mental_health=menthealth, sex=sex, age=agelvl)
     userdata = [high_bp, highcholcheck, chol_check, bmi, smoker, heart_disease, physical_activity, fruit_vege, fruit_vege, alcohol, stroke, health_care, gen_health, mental_health, sex, agelvl]
     
+    diabetespredict, adviceparagraph= predict.generate(userdata)
     
-    return userdata
+    return diabetespredict, adviceparagraph
 
 #Send to the model
-
 
 #Results
 @app.get("/results/", tags=["results"])
