@@ -22,7 +22,7 @@ app.add_middleware(
 
 @app.post("/form/")
 async def get_data(request: Request, high_bp: float = 0.0, high_chol: float = 0.0, chol_check: float = 0.0, weight: float = None, height: float = None, smoker: float = 0.0,
-                   heart_disease: float = 0.0, physical_activity: float = 0.0, fruit_vege: float = 0.0, alcohol: float = 0.0, stroke:float = 0.0, health_care: float = 1.0,
+                   heart_disease: float = 0.0, physical_activity: float = 0.0, fruit_vege: float = 0.0, alcohol: float = 0.0, stroke: float = 0.0, health_care: float = 1.0,
                    gen_health: float = 3.0, mental_health: float = 3.0, sex: float = 0.0, age: float = 35.0):
     """Diabetes Analyzer, input form data, output evaluation metrics and generated paragraph"""
 
