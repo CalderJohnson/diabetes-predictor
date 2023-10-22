@@ -97,6 +97,5 @@ async def get_data(request: Request, high_bp: float = Form(0), high_chol: float 
 #Results
 @app.get("/results/", tags=["results"])
 async def get_results():
-    
     return {"Results":"Success"}
 
