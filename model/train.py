@@ -73,8 +73,8 @@ for i in range(settings["epochs"]):
     loss.backward()
     optimizer.step()
 
-model = torch.load("./model.pt")
 # Evaluate the model on validation batches (x100)
+average_loss = 0
 for i in range(100):
     src, tgt = get_batch(test_data)
     logits = model(src)

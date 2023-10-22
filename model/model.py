@@ -30,9 +30,9 @@ class DiabetesPredictorModel(nn.Module):
         self.fc1 = nn.Linear(16, 64)            # Input layer
         self.batchnorm1 = nn.BatchNorm1d(64)    # Batch normalization layer
         self.dropout1 = nn.Dropout(0.2)         # Dropout layer to prevent overfitting
-        self.fc2 = nn.Linear(64, 128)            # Hidden layer
+        self.fc2 = nn.Linear(64, 128)           # Hidden layer
         self.batchnorm2 = nn.BatchNorm1d(128)   # Batch normalization layer
-        self.dropout2 = nn.Dropout(0.2)         # Dropout layer to prevent overfitting
+        self.dropout2 = nn.Dropout(0.2)         # Dropout layer to mitigate overfitting
         self.fc3 = nn.Linear(128, 1)            # Output layer
         self.sigmoid = nn.Sigmoid()             # Sigmoid activation function
 
@@ -47,4 +47,4 @@ class DiabetesPredictorModel(nn.Module):
         x = self.batchnorm2(x)
         x = self.fc3(x)
         x = self.sigmoid(x)
-        return x.view(settings["batch_size"]) # Return a vector of length batch size
+        return x.squeeze() # Return a vector of length batch size
