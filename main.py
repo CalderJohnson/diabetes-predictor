@@ -36,12 +36,15 @@ async def root() -> dict: #returns a dictionary
 
 #for getting the data and putting into data model, then send
 @app.post("/form/", tags=["form"])
-async def get_data(request: Request, high_bp: float = Form(None), high_chol: float = Form(None), chol_check: float = Form(None), weight: float = Form(None), height: float = Form(None), smoker: float = Form(None), 
-                   heart_disease: float = Form(None), physical_activity: float = Form(None), fruit_vege: float = Form(None), alcohol: float = Form(None), stroke:float = Form(None), health_care: float = Form(None), 
-                   gen_health: float = Form(None), mental_health: float = Form(None), sex: float = Form(None), age: float = Form(None)):
+async def get_data(request: Request, high_bp: float = Form(0), high_chol: float = Form(0), chol_check: float = Form(0), weight: float = Form(None), height: float = Form(None), smoker: float = Form(0),
+                   heart_disease: float = Form(0), physical_activity: float = Form(0), fruit_vege: float = Form(0), alcohol: float = Form(0), stroke:float = Form(0), health_care: float = Form(1),
+                   gen_health: float = Form(3), mental_health: float = Form(3), sex: float = Form(0), age: float = Form(35)):
     #calculations
     #for body mass index, weight/height^2
-    bmi = weight/(height ** 2)
+    if weight is None or height is None:
+        bmi = 24
+    else:
+        bmi = weight/(height ** 2)
     
     #high cholesteral 240 mg/dL
     highcholcheck = 0
