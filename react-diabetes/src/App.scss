@@ -1,0 +1,21 @@
+$primary-color:#000;
+
+
+@import 'animate.css';
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
+
+@font-face {
+  font-family: 'Corben';
+  src: url('./assets/fonts/Corben-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Corben';
+  src: url('./assets/fonts/Corben-Bold.ttf') format('ttf');
+  font-style: Bold;
+}
+

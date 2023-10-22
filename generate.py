@@ -6,7 +6,7 @@ from keys import COHERE_API_KEY # Secret
 
 # Load our custom predictive health model
 model = DiabetesPredictorModel()
-model.load_state_dict(torch.load("./model/model.pt"))
+model.load_state_dict(torch.load("./model/model.pt", map_location=torch.device("cpu")))
 model.eval()
 
 # Access the Cohere API for GPT powered text generation
