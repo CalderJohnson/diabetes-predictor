@@ -1,14 +1,13 @@
-from fastapi import FastAPI, Path, Query, status, Request, Form
-from fastapi.logger import logger
+from fastapi import FastAPI, Request, Form
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse, JSONResponse
-from fastapi.exceptions import RequestValidationError
-from typing import Optional 
+from fastapi.exceptions import RequestValidationError 
 from fastapi.middleware.cors import CORSMiddleware
 
-from data import UserDataAttributes
+#from the project folder
 from model import predict
 
+#starting the fastapi framework
 app = FastAPI()
 
 #for connecting with React
@@ -24,16 +23,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 #end of React part
-    
-dataresults = {}
-    
 
-#Requests
 #Diabetes Analyzer
-@app.get("/", tags=["root"])
-async def root() -> dict: #returns a dictionary
-    return {"Data" : "test"}
-
 #for getting the data and putting into data model, then send
 @app.post("/form/", tags=["form"])
 async def get_data(request: Request, high_bp: float = Form(0), high_chol: float = Form(0), chol_check: float = Form(0), weight: float = Form(None), height: float = Form(None), smoker: float = Form(0),
@@ -47,55 +38,51 @@ async def get_data(request: Request, high_bp: float = Form(0), high_chol: float 
         bmi = weight/(height ** 2)
     
     #high cholesteral 240 mg/dL
-    highcholcheck = 0
+    high_chol_check = 0
     if(high_chol >= 240):
-        highcholcheck = 1
+        high_chol_check = 1
     
     #age level
-    agelvl = 0
+    age_lvl = 0
     if(age < 18):
-        agelvl = 0
+        age_lvl = 0
     elif(18 <= age and age <= 24):
-        agelvl = 1
+        age_lvl = 1
     elif(25 <= age and age <= 29):
-        agelvl = 2
+        age_lvl = 2
     elif(30 <= age and age <= 34):
-        agelvl = 3
+        age_lv = 3
     elif(35 <= age and age <= 39):
-        agelvl = 4
+        age_lv = 4
     elif(40 <= age and age <= 44):
-        agelvl = 5
+        age_lv = 5
     elif(45 <= age and age <= 49):
-        agelvl = 6    
+        age_lv = 6    
     elif(50 <= age and age <= 54):
-        agelvl = 7
+        age_lv = 7
     elif(55 <= age and age <= 59):
-        agelvl = 8
+        age_lv = 8
     elif(60 <= age and age <= 64):
-        agelvl = 9
+        age_lv = 9
     elif(65 <= age and age <= 69):
-        agelvl = 10
+        age_lv = 10
     elif(70 <= age and age <= 74):
-        agelvl = 11
+        age_lv = 11
     elif(75 <= age and age <= 79):
-        agelvl = 12
+        age_lv = 12
     elif(80 <= age):
-        agelvl = 13    
+        age_lv = 13    
     
     #put fruit_vege twice, one for fruit and one for vege
     #userdata = UserDataAttributes(high_bp=highbp, high_chol=highchl, chol_check=chlcheck, bmi=bmi, smoker=smoker, heart_disease=heartd, 
                               #physical_activity=physact, fruits=fruit_vege, vegetables=fruit_vege, alcohol=alch, stroke=stroke, healthcare=healthcare, 
                               #gen_health=genhealth, mental_health=menthealth, sex=sex, age=agelvl)
-    userdata = [high_bp, highcholcheck, chol_check, bmi, smoker, heart_disease, physical_activity, fruit_vege, fruit_vege, alcohol, stroke, health_care, gen_health, mental_health, sex, agelvl]
+    user_data = [high_bp, high_chol_check, chol_check, bmi, smoker, heart_disease, physical_activity, fruit_vege, fruit_vege, alcohol, stroke, health_care, gen_health, mental_health, sex, age_lv]
     
-    diabetespredict, adviceparagraph= predict.generate(userdata)
+    #Send to the model
+    #input data into the ai
+    diabetes_pred, adv_paragraph= predict.generate(user_data)
+    #results is a percentage od the diabetes risk, and a paragraph that tells you what you can do to lessen diabetes/risk of diabetes
     
-    return diabetespredict, adviceparagraph
-
-#Send to the model
-
-#Results
-@app.get("/results/", tags=["results"])
-async def get_results():
-    return {"Results":"Success"}
+    return diabetes_pred, adv_paragraph
 
