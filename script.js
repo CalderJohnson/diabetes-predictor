@@ -1,3 +1,4 @@
+/* HOW WE WOULD RETRIEVE DATA ON THE REACT APP */
 const url = 'http://localhost:8000/form/'
 
 // Example params THESE WILL BE YOUR FORM CONTENTS
