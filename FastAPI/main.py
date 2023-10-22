@@ -35,12 +35,18 @@ async def root() -> dict: #returns a dictionary
 
 #for getting the data and putting into data model, then send
 @app.post("/form/", tags=["form"])
-async def get_data(highbp: float, highchl: float, chlcheck: float, weight: float, height: float, smoker: float, heartd: float, 
-                  physact: float, fruit_vege: float, alch: float, stroke:float, healthcare: float, genhealth: float, menthealth: float, 
-                  sex: float, age: float):
+async def get_data(request: Request, high_bp: float = Form(None), high_chol: float = Form(None), chol_check: float = Form(None), weight: float = Form(None), height: float = Form(None), smoker: float = Form(None), 
+                   heart_disease: float = Form(None), physical_activity: float = Form(None), fruit_vege: float = Form(None), alcohol: float = Form(None), stroke:float = Form(None), health_care: float = Form(None), 
+                   gen_health: float = Form(None), mental_health: float = Form(None), sex: float = Form(None), age: float = Form(None)):
     #calculations
     #for body mass index, weight/height^2
     bmi = weight/(height ** 2)
+    
+    #high cholesteral 240 mg/dL
+    highcholcheck = 0
+    if(high_chol >= 240):
+        highcholcheck = 1
+    
     #age level
     agelvl = 0
     if(age < 18):
@@ -73,13 +79,20 @@ async def get_data(highbp: float, highchl: float, chlcheck: float, weight: float
         agelvl = 13    
     
     #put fruit_vege twice, one for fruit and one for vege
-    userdata = UserDataAttributes(high_bp=highbp, high_chol=highchl, chol_check=chlcheck, bmi=bmi, smoker=smoker, heart_disease=heartd, 
-                              physical_activity=physact, fruits=fruit_vege, vegetables=fruit_vege, alcohol=alch, stroke=stroke, healthcare=healthcare, 
-                              gen_health=genhealth, mental_health=menthealth, sex=sex, age=agelvl)
+    #userdata = UserDataAttributes(high_bp=highbp, high_chol=highchl, chol_check=chlcheck, bmi=bmi, smoker=smoker, heart_disease=heartd, 
+                              #physical_activity=physact, fruits=fruit_vege, vegetables=fruit_vege, alcohol=alch, stroke=stroke, healthcare=healthcare, 
+                              #gen_health=genhealth, mental_health=menthealth, sex=sex, age=agelvl)
+    userdata = [high_bp, highcholcheck, chol_check, bmi, smoker, heart_disease, physical_activity, fruit_vege, fruit_vege, alcohol, stroke, health_care, gen_health, mental_health, sex, agelvl]
+    
     
     return userdata
+
+#Send to the model
+
 
 #Results
 @app.get("/results/", tags=["results"])
 async def get_results():
+    
     return {"Results":"Success"}
+

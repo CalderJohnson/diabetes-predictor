@@ -20,6 +20,3 @@ class UserDataAttributes(BaseModel):
     sex: float
     age: float
     
-    
-class UpdateUserDataAttributes(BaseModel):
-    Name: Optional[str] = None
